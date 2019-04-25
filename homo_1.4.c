@@ -15,7 +15,7 @@
  
  Date begun     : 18 April, 2001
  
- Date modified  : 17 January, 2019
+ Date modified  : 25 April, 2019
  
  Copyright      : Copyright 2019, CSIRO & The University of Sydney.
  
@@ -72,15 +72,15 @@
 
 
 
-#define FALSE                 0
-#define TRUE                  1
-#define MINIMUM               0
-#define NUCLEOTIDE            0
-#define AMINO_ACID            1
-#define SHORT_LINE           10
-#define SCROLL_LENGTH        40
-#define LINE_LENGTH         500
-#define SEQUENCE_LENGTH 2000000
+#define FALSE                  0
+#define TRUE                   1
+#define MINIMUM                0
+#define NUCLEOTIDE             0
+#define AMINO_ACID             1
+#define SHORT_LINE            10
+#define SCROLL_LENGTH         40
+#define LINE_LENGTH          500
+#define SEQUENCE_LENGTH 10000000
 #define SQR(a) ((a) * (a))
 
 /*----------------- Declaration of Function Prototypes -------------------*/
@@ -94,7 +94,7 @@ void               Looking_for_infile(void);
 void               Looking_for_outfiles(void);
 void               Make_temporary_work_file(void);
 void               Heterogeneity(int num_of_seq, int character_type, int coding_type);
-unsigned int       Bowker_DF(unsigned int temp[20][20]);
+unsigned int        Bowker_DF(unsigned int temp[20][20]);
 int                Specify_sequence_characters(void);
 int                Specify_nucleotide_coding(void);
 int                Another_analysis(void);
@@ -1867,8 +1867,11 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 				varU = 0;
 				varV = 0;
 				for (n = 0; n < sizeUV; n++) {
-					varU = varU + dm[m][n];
-					varV = varV + dm[n][m];
+//CHANGED -- testing
+                    if (m != n) {
+                        varU = varU + dm[m][n];
+                        varV = varV + dm[n][m];
+                    }
 				}
 				vectorU[m] = varU;
 				vectorV[m] = varV;
@@ -2106,42 +2109,42 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 
 			if(j < (num_of_seq - 1)){
 				fprintf(mat1File,"%Le,",Q);
-				fprintf(mat2File,"%e\t",d_Eucl_Marg);
-				fprintf(mat3File,"%e\t",d_Eucl_Full);
+				fprintf(mat2File,"%.8f\t",d_Eucl_Marg);
+				fprintf(mat3File,"%.8f\t",d_Eucl_Full);
 				if (i != j) {
 					if (sizeUV > 1) {
-						fprintf(mat4File,"%e\t",d_Aitc_Marg);
+						fprintf(mat4File,"%.8f\t",d_Aitc_Marg);
 					} else {
 						fprintf(mat4File,"NaN\t");
 					}
 					if (sizeYZ > 1) {
-						fprintf(mat5File,"%e\t",d_Aitc_Full);
+						fprintf(mat5File,"%.8f\t",d_Aitc_Full);
 					} else {
 						fprintf(mat5File,"NaN\t");
 					}
 				} else {
-					fprintf(mat4File,"%e\t",0.0);
-					fprintf(mat5File,"%e\t",0.0);
+					fprintf(mat4File,"%.8f\t",0.0);
+					fprintf(mat5File,"%.8f\t",0.0);
 				}
 			}
 			else{
 				fprintf(mat1File,"%Le\n",Q);
-				fprintf(mat2File,"%e\n",d_Eucl_Marg);
-				fprintf(mat3File,"%e\n",d_Eucl_Full);
+				fprintf(mat2File,"%.8f\n",d_Eucl_Marg);
+				fprintf(mat3File,"%.8f\n",d_Eucl_Full);
 				if (i != j) {
 					if (sizeUV > 1) {
-						fprintf(mat4File,"%e\n",d_Aitc_Marg);
+						fprintf(mat4File,"%.8f\n",d_Aitc_Marg);
 					} else {
 						fprintf(mat4File,"NaN\n");
 					}
 					if (sizeYZ > 1) {
-						fprintf(mat5File,"%e\n",d_Aitc_Full);
+						fprintf(mat5File,"%.8f\n",d_Aitc_Full);
 					} else {
 						fprintf(mat5File,"NaN\n");
 					}
 				} else {
-					fprintf(mat4File,"%e\n",0.0);
-					fprintf(mat5File,"%e\n",0.0);
+					fprintf(mat4File,"%.8f\n",0.0);
+					fprintf(mat5File,"%.8f\n",0.0);
 				}
 			}
 			if(i < j){
