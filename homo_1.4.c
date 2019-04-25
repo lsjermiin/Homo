@@ -811,8 +811,8 @@ int ReadAlignedFasta(void)
 void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 {
 	unsigned int  i, j, k = 0, l, m, n, varU, varV, sizeYZ = 0, sizeUV = 0;
-	unsigned int  h, df = 0, length_1, length_2, sum, count, counter = 0;
-	unsigned int  zeroU, zeroV, zeroY, zeroZ;
+    unsigned int  zeroU, zeroV, zeroY, zeroZ;
+	unsigned long h, df = 0, length_1, length_2, sum, suM, count, counter = 0;
 	unsigned long sig_A = 0, sig_B = 0, sig_C = 0, sig_D = 0;
 	unsigned long sig_E = 0, sig_F = 0, sig_G = 0, sig_H = 0;
     unsigned long total;
@@ -857,7 +857,7 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 			while((c = fgetc(tempFile)) != '\n' && h < SHORT_LINE)
 				seq_len_1[h++] = c;
 			seq_len_1[h] = '\0';
-			if(1 != sscanf(seq_len_1,"%d", &length_1)) {
+			if(1 != sscanf(seq_len_1,"%ld", &length_1)) {
 				printf("\nExpected the length for sequence %d but found none.", i + 1);
 				printf("\nPlease check file named %s.\n", tempName);
 				printf("\n\nSorry - Program aborted\n\n");
@@ -910,7 +910,7 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 			while((c = fgetc(tempFile)) != '\n' && h < SHORT_LINE)
 				seq_len_2[h++] = c;
 			seq_len_2[h] = '\0';
-			if(1 != sscanf(seq_len_2,"%d", &length_2)) {
+			if(1 != sscanf(seq_len_2,"%ld", &length_2)) {
 				printf("\nExpected the length for sequence %d but found none.", i + 1);
 				printf("\nPlease check file named %s.\n", tempName);
 				printf("\n\nSorry - Program aborted\n\n");
@@ -1964,36 +1964,36 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
  */
 
 				if (zeroY > 0) {
-					sum = 0;
+					suM = 0;
 					for (l = 0; l < sizeYZ; l++) {
-						sum = sum + (int) vectorY[l];
+						suM = suM + (int) vectorY[l];
 					}
-					zeroAdj = 1.0/(sizeYZ * (1.0 + (double) sqrt(sum)));
+					zeroAdj = 1.0/(sizeYZ * (1.0 + (double) sqrt(suM)));
 					for (l = 0; l < sizeYZ; l++) {
 						count = (int) vectorY[l];
 						if (count == 0) {
-							vectorY[l] = zeroAdj * sum;
-//							printf("\nzeroY = %d; sizeYZ = %d; count = %d; sum = %d; zeroAdj = %f; vectorY[l] = %f; l = %d",zeroY,sizeYZ,count,sum,zeroAdj,vectorY[l],l);
+							vectorY[l] = zeroAdj * suM;
+//							printf("\nzeroY = %d; sizeYZ = %d; count = %d; suM = %d; zeroAdj = %f; vectorY[l] = %f; l = %d",zeroY,sizeYZ,count,suM,zeroAdj,vectorY[l],l);
 						} else {
 							vectorY[l] = (1.0 - zeroAdj * zeroY) * count;
-//							printf("\nzeroY = %d; sizeYZ = %d; count = %d; sum = %d; zeroAdj = %f; vectorY[l] = %f; l = %d",zeroY,sizeYZ,count,sum,zeroAdj,vectorY[l],l);
+//							printf("\nzeroY = %d; sizeYZ = %d; count = %d; suM = %d; zeroAdj = %f; vectorY[l] = %f; l = %d",zeroY,sizeYZ,count,suM,zeroAdj,vectorY[l],l);
 						}
 					}
 				}
 				if (zeroZ > 0) {
-					sum = 0;
+					suM = 0;
 					for (l = 0; l < sizeYZ; l++) {
-						sum = sum + (int) vectorZ[l];
+						suM = suM + (int) vectorZ[l];
 					}
-					zeroAdj = 1.0/(sizeYZ * (1.0 + (double) sqrt(sum)));
+					zeroAdj = 1.0/(sizeYZ * (1.0 + (double) sqrt(suM)));
 					for (l = 0; l < sizeYZ; l++) {
 						count = (int) vectorZ[l];
 						if (count == 0) {
-							vectorZ[l] = zeroAdj * sum;
-//							printf("\nzeroZ = %d; sizeYZ = %d; count = %d; sum = %d; zeroAdj = %f; vectorZ[l] = %f; l = %d",zeroZ,sizeYZ,count,sum,zeroAdj,vectorZ[l],l);
+							vectorZ[l] = zeroAdj * suM;
+//							printf("\nzeroZ = %d; sizeYZ = %d; count = %d; suM = %d; zeroAdj = %f; vectorZ[l] = %f; l = %d",zeroZ,sizeYZ,count,suM,zeroAdj,vectorZ[l],l);
 						} else {
 							vectorZ[l] = (1.0 - zeroAdj * zeroZ) * count;
-//							printf("\nzeroZ = %d; sizeYZ = %d; count = %d; sum = %d; zeroAdj = %f; vectorZ[l] = %f; l = %d",zeroZ,sizeYZ,count,sum,zeroAdj,vectorZ[l],l);
+//							printf("\nzeroZ = %d; sizeYZ = %d; count = %d; suM = %d; zeroAdj = %f; vectorZ[l] = %f; l = %d",zeroZ,sizeYZ,count,suM,zeroAdj,vectorZ[l],l);
 						}
 					}
 				}
@@ -2031,36 +2031,36 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 */
 
 				if (zeroU > 0) {
-					sum = 0;
+					suM = 0;
 					for (l = 0; l < sizeUV; l++) {
-						sum = sum + (int) vectorU[l];
+						suM = suM + (int) vectorU[l];
 					}
-					zeroAdj = 1.0/(sizeUV * (1.0 + (double) sqrt(sum)));
+					zeroAdj = 1.0/(sizeUV * (1.0 + (double) sqrt(suM)));
 					for (l = 0; l < sizeUV; l++) {
 						count = (int) vectorU[l];
 						if (count == 0) {
-							vectorU[l] = zeroAdj * sum;
-//                            printf("\nzeroU = %d; sizeUV = %d; count = %d; sum = %d; zeroAdj = %f; vectorU[l] = %f; l = %d",zeroU,sizeUV,count,sum,zeroAdj,vectorU[l],l);
+							vectorU[l] = zeroAdj * suM;
+//                            printf("\nzeroU = %d; sizeUV = %d; count = %d; suM = %d; zeroAdj = %f; vectorU[l] = %f; l = %d",zeroU,sizeUV,count,suM,zeroAdj,vectorU[l],l);
 						} else {
 							vectorU[l] = (1.0 - zeroAdj * zeroU) * count;
-//                            printf("\nzeroU = %d; sizeUV = %d; count = %d; sum = %d; zeroAdj = %f; vectorU[l] = %f; l = %d",zeroU,sizeUV,count,sum,zeroAdj,vectorU[l],l);
+//                            printf("\nzeroU = %d; sizeUV = %d; count = %d; suM = %d; zeroAdj = %f; vectorU[l] = %f; l = %d",zeroU,sizeUV,count,suM,zeroAdj,vectorU[l],l);
 						}
 					}
 				}
 				if (zeroV > 0) {
-					sum = 0;
+					suM = 0;
 					for (l = 0; l < sizeUV; l++) {
-						sum = sum + (int) vectorV[l];
+						suM = suM + (int) vectorV[l];
 					}
-					zeroAdj = 1.0/(sizeUV * (1.0 + (double) sqrt(sum)));
+					zeroAdj = 1.0/(sizeUV * (1.0 + (double) sqrt(suM)));
 					for (l = 0; l < sizeUV; l++) {
 						count = (int) vectorV[l];
 						if (count == 0) {
-							vectorV[l] = zeroAdj * sum;
-//                            printf("\nzeroV = %d; sizeUV = %d; count = %d; sum = %d; zeroAdj = %f; vectorV[l] = %f; l = %d",zeroV,sizeUV,count,sum,zeroAdj,vectorV[l],l);
+							vectorV[l] = zeroAdj * suM;
+//                            printf("\nzeroV = %d; sizeUV = %d; count = %d; suM = %d; zeroAdj = %f; vectorV[l] = %f; l = %d",zeroV,sizeUV,count,suM,zeroAdj,vectorV[l],l);
 						} else {
 							vectorV[l] = (1.0 - zeroAdj * zeroV) * count;
-//                            printf("\nzeroV = %d; sizeUV = %d; count = %d; sum = %d; zeroAdj = %f; vectorV[l] = %f; l = %d",zeroV,sizeUV,count,sum,zeroAdj,vectorV[l],l);
+//                            printf("\nzeroV = %d; sizeUV = %d; count = %d; suM = %d; zeroAdj = %f; vectorV[l] = %f; l = %d",zeroV,sizeUV,count,suM,zeroAdj,vectorV[l],l);
 						}
 					}
 				}
@@ -2153,7 +2153,7 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 				fflush(NULL);
 				fprintf(outFile,"%s,%s",seq_name_1, seq_name_2);
 				if (df == 0) {
-					fprintf(outFile,",No test,%d,%Le,%e,%e",df,Q,d_Eucl_Marg,d_Eucl_Full);
+					fprintf(outFile,",No test,%lu,%Le,%e,%e",df,Q,d_Eucl_Marg,d_Eucl_Full);
 					if (sizeUV > 1) {
 						fprintf(outFile,",%e",d_Aitc_Marg);
 					} else {
@@ -2164,9 +2164,9 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 					} else {
 						fprintf(outFile,",NaN");
 					}
-					fprintf(outFile,",%d\n",sum);
+					fprintf(outFile,",%lu\n",sum);
 				} else {
-					fprintf(outFile,",%f,%d,%Le,%e,%e",bowker,df,Q,d_Eucl_Marg,d_Eucl_Full);
+					fprintf(outFile,",%f,%lu,%Le,%e,%e",bowker,df,Q,d_Eucl_Marg,d_Eucl_Full);
 					if (sizeUV > 1) {
 						fprintf(outFile,",%e",d_Aitc_Marg);
 					} else {
@@ -2177,7 +2177,7 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 					} else {
 						fprintf(outFile,",NaN");
 					}
-					fprintf(outFile,",%d\n",sum);
+					fprintf(outFile,",%lu\n",sum);
 				}
 			}
 			fflush(outFile);
@@ -2226,7 +2226,7 @@ void Heterogeneity(int num_of_seq, int character_type, int coding_type)
 	if(MIN_Q < 0.00001)
 		printf("\np-values < 0.00001                %10lu (%.3f)",sig_H, (float) sig_H/counter);
 	printf("\n");
-	printf("\nNumber of tests                        %d",counter);
+	printf("\nNumber of tests                        %lu",counter);
 	printf("\nSmallest p-value                       %e",MIN_Q);
 	printf("\nFamily-wise error rate (0.05/tests)    %e",0.05/counter);
 	printf("\n");
